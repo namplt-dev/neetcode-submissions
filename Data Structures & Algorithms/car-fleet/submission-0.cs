@@ -1,19 +1,21 @@
 public class Solution {
     public int CarFleet(int target, int[] position, int[] speed) {
-        var cars =
-            position.Zip(speed, (pos, spd) => (pos, spd)).OrderByDescending(x => x.pos).ToArray();
+        Stack<double> stack = new Stack<double>();
+        Dictionary<int, int> sV = new Dictionary<int, int>();
 
-        int fleets = 0;
-        double time = 0;
+        for (int i = 0; i < position.Length; i++) {
+            sV.Add(position[i], speed[i]);
+        }
+        IOrderedEnumerable<KeyValuePair<int, int>> sorted = sV.OrderByDescending(x => x.Key);
 
-        foreach (var car in cars) {
-            double carTime = (double)(target - car.pos) / car.spd;
-
-            if (carTime > time) {
-                fleets++;
-                time = carTime;
+        foreach (var sv in sorted) {
+            double time = (double)(target - sv.Key) / sv.Value;
+            if (stack.Count > 0 && time <= stack.Peek()) {
+                continue;
+            } else {
+                stack.Push(time);
             }
         }
-        return fleets;
+        return stack.Count;
     }
 }
