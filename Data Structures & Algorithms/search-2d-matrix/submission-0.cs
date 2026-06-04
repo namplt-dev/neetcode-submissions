@@ -18,7 +18,7 @@ public class Solution {
         }
 
         int index = row * matrix[0].Length + col;
-        return (matrix[row][col] > target) ? Search(matrix, 0, index - 1, target)
+        return (matrix[row][col] > target) ? Search(matrix, l, index - 1, target)
                                            : Search(matrix, index + 1, r, target);
     }
 }
